@@ -78,7 +78,8 @@ class Jpjuliao_WP_DevOps
 		else {
             $url = str_replace($scheme, $scheme.'://'.$_POST['login'].'@', $url);
 		}
-		
+        
+        echo $url;
         exec('git pull '.$url, $output);
         echo json_encode($output);
         wp_die();
