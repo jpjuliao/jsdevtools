@@ -21,6 +21,7 @@ class Jpjuliao_WP_DevOps
 		$this->root = plugin_dir_path(__FILE__).'/../../';
         add_action('wp_ajax_devops', [$this, 'init']);
         add_action('wp_head', [$this, 'js']);
+        add_action('admin_head', [$this, 'js']);
     }
         
     public function init()
@@ -51,12 +52,15 @@ class Jpjuliao_WP_DevOps
 
     public function js() { ?>
         <script type="text/javascript">
-            var ajaxurl = '<?php echo admin_url( "admin-ajax.php" ); ?>';
-            var ajaxnonce = '<?php echo wp_create_nonce( "wp_devops_ajax_nonce" ); ?>';
-            var devops = function($params) {
-                jQuery.post(ajaxurl, $params, function(response) {
-                    console.log('WP-Devops: ', response);
-                });
+            function devops($params) {
+                'use strict';
+                jQuery.post(
+                    <?php echo admin_url( "admin-ajax.php" ); ?>, 
+                    $params, 
+                    function(response) {
+                        console.log('WP-Devops: ', response);
+                    }
+                );
             }
         </script><?php
     }
