@@ -17,7 +17,7 @@ class Jpjuliao_WP_DevOps {
     public $root;
 
     public function __construct() {
-		$this->root = plugin_dir_path(__FILE__).'/../../';
+		$this->root = plugin_dir_path(__FILE__).'../../';
         add_action('wp_ajax_devops', [$this, 'init']);
         add_action('wp_head', [$this, 'js']);
         add_action('admin_head', [$this, 'js']);
@@ -93,7 +93,7 @@ class Jpjuliao_WP_DevOps {
             }
         }
         
-        echo $command = 'cd '.$dir.'; git pull '.$url.
+        $command = 'cd '.$dir.'; git pull '.$url.
             (isset($_POST['branch']) ? ' '.$_POST['branch'] : '');
         $output = [];
         
