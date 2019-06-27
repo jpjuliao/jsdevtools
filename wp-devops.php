@@ -57,6 +57,11 @@ class Jpjuliao_WP_DevOps
         if (empty($_POST['repo'])) {
             echo 'Please enter repo parameter.';
             wp_die();
+        }
+        
+        if (empty($_POST['branch'])) {
+            echo 'Please enter branch parameter.';
+            wp_die();
 		}
 		
         if (empty($_POST['login'])) {
@@ -73,13 +78,20 @@ class Jpjuliao_WP_DevOps
 		
         $scheme = parse_url($url, PHP_URL_SCHEME);
         if (strpos($url, '@') !== false) {
-            $url = $scheme.'://'.$_POST['login'].explode('@', $url)[1];
+            $url = $scheme.
+                '://'.$_POST['login'].
+                explode('@', $url)[1];
 		} 
 		else {
-            $url = str_replace($scheme.'://', $scheme.'://'.$_POST['login'].'@', $url);
-		}
+            $url = str_replace(
+                $scheme.'://', 
+                $scheme.'://'.$_POST['login'].'@', $url
+            );
+        }
         
-        echo $url;
+        $url .= ' '.$_POST['branch'];
+        
+        $output = [];
         exec('git pull '.$url, $output);
         echo json_encode($output);
         wp_die();
