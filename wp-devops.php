@@ -70,14 +70,9 @@ class Jpjuliao_WP_DevOps {
             echo 'Please enter repo parameter.';
             wp_die();
         }
-        
-        if (empty($_POST['branch'])) {
-            echo 'Please enter branch parameter.';
-            wp_die();
-		}
 
-        $dir = 'cd '.$this->root.$_POST['repo'];
-        $url = exec($dir.'; git config --get remote.origin.url');
+        $dir = $this->root.$_POST['repo'];
+        $url = exec('cd '.$dir.'; git config --get remote.origin.url');
 		if (!filter_var($url, FILTER_VALIDATE_URL)) {
             echo 'Remote origin URL not found.';
             wp_die();
@@ -98,8 +93,11 @@ class Jpjuliao_WP_DevOps {
             }
         }
         
+        $command = 'cd '.$dir.'; git pull '.$url.
+            isset($_POST['branch']) ? ' '.$_POST['branch'] : '';
         $output = [];
-        exec($dir.'; git pull '.$url.' '.$_POST['branch'], $output);
+        
+        exec($command, $output);
         echo implode('\n', $output);
         wp_die();
     }
