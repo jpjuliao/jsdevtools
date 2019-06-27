@@ -70,7 +70,6 @@ class Jpjuliao_WP_DevOps
 		}
 
         $url = exec('cd '.$this->root.$_POST['repo'].'; git config --get remote.origin.url');
-        var_dump($url);
 		if (!filter_var($url, FILTER_VALIDATE_URL)) {
             echo 'Remote origin URL not found.';
             wp_die();
@@ -89,10 +88,8 @@ class Jpjuliao_WP_DevOps
             );
         }
         
-        $url .= ' '.$_POST['branch'];
-        
         $output = [];
-        exec('git pull '.$url, $output);
+        exec('git pull '.$url.' '.$_POST['branch'], $output);
         echo json_encode($output);
         wp_die();
     }
