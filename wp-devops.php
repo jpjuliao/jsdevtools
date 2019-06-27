@@ -121,6 +121,10 @@ class Jpjuliao_WP_DevOps
         echo implode('\n', $output);
         wp_die();
     }
+
+    private function git_clone() {
+
+    }
 }
 
 new Jpjuliao_WP_DevOps();
