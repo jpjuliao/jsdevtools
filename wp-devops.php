@@ -26,7 +26,7 @@ class Jpjuliao_WP_DevOps
         
     public function init()
     {
-        if (current_user_can('manage_options')) {
+        if (!current_user_can('manage_options')) {
             echo 'User not allowed.';
             wp_die();
         }
