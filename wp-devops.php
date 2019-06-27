@@ -93,7 +93,7 @@ class Jpjuliao_WP_DevOps {
             }
         }
         
-        $command = 'cd '.$dir.'; git pull '.$url.
+        echo $command = 'cd '.$dir.'; git pull '.$url.
             isset($_POST['branch']) ? ' '.$_POST['branch'] : '';
         $output = [];
         
