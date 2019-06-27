@@ -55,7 +55,7 @@ class Jpjuliao_WP_DevOps
             function devops($params) {
                 'use strict';
                 jQuery.post(
-                    <?php echo admin_url( "admin-ajax.php" ); ?>, 
+                    '<?php echo admin_url( "admin-ajax.php" ); ?>', 
                     $params, 
                     function(response) {
                         console.log('WP-Devops: ', response);
