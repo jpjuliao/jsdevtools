@@ -79,7 +79,8 @@ class Jpjuliao_WP_DevOps
             $url = str_replace($scheme, $scheme.'://'.$_POST['login'].'@', $url);
 		}
 		
-        echo exec('git pull '.$url);
+        exec('git pull '.$url, $output);
+        echo json_encode($output);
         wp_die();
     }
 }
