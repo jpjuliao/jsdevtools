@@ -20,6 +20,7 @@ class Jpjuliao_WP_DevOps
     {
 		$this->root = plugin_dir_path(__FILE__).'/../../';
         add_action('wp_ajax_devops', [$this, 'init']);
+        add_action('wp_head', [$this, 'js_variables']);
     }
         
     public function init()
@@ -42,6 +43,13 @@ class Jpjuliao_WP_DevOps
 		}
 		
         wp_die();
+    }
+
+    public function js_variables() { ?>
+        <script type="text/javascript">
+          var ajaxurl = '<?php echo admin_url( "admin-ajax.php" ); ?>';
+          var ajaxnonce = '<?php echo wp_create_nonce( "wp_devops_ajax_nonce" ); ?>';
+        </script><?php
     }
         
     private function git_pull()
