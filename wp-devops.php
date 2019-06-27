@@ -35,11 +35,11 @@ class Jpjuliao_WP_DevOps
             wp_die();
 		}
 		
-        if ($_POST['action'] == 'git pull') {
+        if ($_POST['git'] == 'pull') {
             $this->git_pull();
 		} 
 		else {
-            echo 'Please enter a valid action.';
+            echo 'Please enter a valid git command.';
 		}
 		
         wp_die();
