@@ -64,8 +64,8 @@ class Jpjuliao_WP_DevOps
 			wp_die();
 		}
 
-        exec('cd '.$this->root.$_POST['repo']);
-		$url = exec('git config --get remote.origin.url');
+        echo exec('cd '.$this->root.$_POST['repo']);
+		echo $url = exec('git config --get remote.origin.url');
 		if (!filter_var($url, FILTER_VALIDATE_URL)) {
             echo 'Remote origin URL not found.';
             wp_die();
