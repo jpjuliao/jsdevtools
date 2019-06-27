@@ -12,20 +12,18 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Jpjuliao_WP_DevOps
-{
+class Jpjuliao_WP_DevOps {
+
     public $root;
 
-    public function __construct()
-    {
+    public function __construct() {
 		$this->root = plugin_dir_path(__FILE__).'/../../';
         add_action('wp_ajax_devops', [$this, 'init']);
         add_action('wp_head', [$this, 'js']);
         add_action('admin_head', [$this, 'js']);
     }
         
-    public function init()
-    {
+    public function init() {
         if (!current_user_can('manage_options')) {
             echo 'User not allowed.';
             wp_die();
@@ -66,8 +64,8 @@ class Jpjuliao_WP_DevOps
         </script><?php
     }
         
-    private function git_pull()
-    {
+    private function git_pull() {
+
         if (empty($_POST['repo'])) {
             echo 'Please enter repo parameter.';
             wp_die();
@@ -77,11 +75,6 @@ class Jpjuliao_WP_DevOps
             echo 'Please enter branch parameter.';
             wp_die();
 		}
-		
-        if (empty($_POST['login'])) {
-            echo 'Please enter login parameter.';
-			wp_die();
-		}
 
         $dir = 'cd '.$this->root.$_POST['repo'];
         $url = exec($dir.'; git config --get remote.origin.url');
@@ -90,17 +83,19 @@ class Jpjuliao_WP_DevOps
             wp_die();
 		}
 		
-        $scheme = parse_url($url, PHP_URL_SCHEME);
-        if (strpos($url, '@') !== false) {
-            $url = $scheme.
-                '://'.$_POST['login'].
-                explode('@', $url)[1];
-		} 
-		else {
-            $url = str_replace(
-                $scheme.'://', 
-                $scheme.'://'.$_POST['login'].'@', $url
-            );
+        if (!empty($_POST['login'])) {
+            $scheme = parse_url($url, PHP_URL_SCHEME);
+            if (strpos($url, '@') !== false) {
+                $url = $scheme.
+                    '://'.$_POST['login'].
+                    explode('@', $url)[1];
+            } else {
+                $url = str_replace(
+                    $scheme.'://',
+                    $scheme.'://'.$_POST['login'].'@',
+                    $url
+                );
+            }
         }
         
         $output = [];
@@ -125,6 +120,7 @@ class Jpjuliao_WP_DevOps
     private function git_clone() {
 
     }
+
 }
 
 new Jpjuliao_WP_DevOps();
