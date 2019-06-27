@@ -76,7 +76,7 @@ class Jpjuliao_WP_DevOps
             $url = $scheme.'://'.$_POST['login'].explode('@', $url)[1];
 		} 
 		else {
-            $url = str_replace($scheme, $scheme.'://'.$_POST['login'].'@', $url);
+            $url = str_replace($scheme.'://', $scheme.'://'.$_POST['login'].'@', $url);
 		}
         
         echo $url;
