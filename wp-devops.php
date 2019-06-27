@@ -94,7 +94,7 @@ class Jpjuliao_WP_DevOps {
         }
         
         echo $command = 'cd '.$dir.'; git pull '.$url.
-            isset($_POST['branch']) ? ' '.$_POST['branch'] : '';
+            (isset($_POST['branch']) ? ' '.$_POST['branch'] : '');
         $output = [];
         
         exec($command, $output);
