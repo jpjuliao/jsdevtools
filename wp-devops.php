@@ -20,11 +20,16 @@ class Jpjuliao_WP_DevOps
     {
 		$this->root = plugin_dir_path(__FILE__).'/../../';
         add_action('wp_ajax_devops', [$this, 'init']);
-        add_action('wp_head', [$this, 'js_variables']);
+        add_action('wp_head', [$this, 'js']);
     }
         
     public function init()
     {
+        if (current_user_can('manage_options')) {
+            echo 'User not allowed.';
+            wp_die();
+        }
+
         if (empty($_POST)) {
             echo 'Please enter parameters.';
             wp_die();
@@ -34,21 +39,25 @@ class Jpjuliao_WP_DevOps
             echo 'Please enter an action.';
             wp_die();
 		}
-		
-        if ($_POST['git'] == 'pull') {
-            $this->git_pull();
-		} 
-		else {
-            echo 'Please enter a valid git command.';
-		}
+        
+        switch ($_POST['git']) {
+            case 'pull'     : $this->git_pull(); break;
+            case 'status'   : $this->git_status(); break;
+            default         : echo 'Please enter a valid git command.';
+        }
 		
         wp_die();
     }
 
-    public function js_variables() { ?>
+    public function js() { ?>
         <script type="text/javascript">
-          var ajaxurl = '<?php echo admin_url( "admin-ajax.php" ); ?>';
-          var ajaxnonce = '<?php echo wp_create_nonce( "wp_devops_ajax_nonce" ); ?>';
+            var ajaxurl = '<?php echo admin_url( "admin-ajax.php" ); ?>';
+            var ajaxnonce = '<?php echo wp_create_nonce( "wp_devops_ajax_nonce" ); ?>';
+            var devops = function($params) {
+                jQuery.post(ajaxurl, $params, function(response) {
+                    console.log('WP-Devops: ', response);
+                });
+            }
         </script><?php
     }
         
@@ -91,7 +100,20 @@ class Jpjuliao_WP_DevOps
         
         $output = [];
         exec($dir.'; git pull '.$url.' '.$_POST['branch'], $output);
-        echo json_encode($output);
+        echo implode('\n', $output);
+        wp_die();
+    }
+
+    private function git_status() {
+        if (empty($_POST['repo'])) {
+            echo 'Please enter repo parameter.';
+            wp_die();
+        }
+        
+        $output = [];
+        $dir = 'cd '.$this->root.$_POST['repo'];
+        exec($dir.'; git status', $output);
+        echo implode('\n', $output);
         wp_die();
     }
 }
