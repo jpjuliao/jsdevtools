@@ -88,8 +88,9 @@ class Jpjuliao_WP_DevOps
             );
         }
         
+        echo $command = 'git pull '.$url.' '.$_POST['branch'];
         $output = [];
-        exec('git pull '.$url.' '.$_POST['branch'], $output);
+        exec($command, $output);
         echo json_encode($output);
         wp_die();
     }
