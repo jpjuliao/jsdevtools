@@ -44,14 +44,16 @@ class Jpjuliao_WP_DevOps {
             wp_die();
 		}
         
-        switch ($_POST['git']) {
-            case 'config'   : $this->git_config(); break;
-            case 'pull'     : $this->git_pull(); break;
-            case 'status'   : $this->git_status(); break;
-            default         : echo 'Please enter a valid git command.';
+        if (!empty($_POST['git'])) {
+            switch ($_POST['git']) {
+                case 'config': $this->git_config(); break;
+                case 'pull': $this->git_pull(); break;
+                case 'status': $this->git_status(); break;
+                default: echo 'Please enter a valid git command.';
+            }
+            wp_die();
         }
 		
-        wp_die();
     }
 
     public function js() { ?>
