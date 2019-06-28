@@ -53,6 +53,9 @@ class Jpjuliao_WP_DevOps {
         <script type="text/javascript">
             function devops($params) {
                 'use strict';
+                if (typeof $params === 'undefined') {
+                    $params = {};
+                }
                 $params.action = 'devops';
                 jQuery.post(
                     '<?php echo admin_url( "admin-ajax.php" ); ?>', 
@@ -80,7 +83,7 @@ class Jpjuliao_WP_DevOps {
         }
         $file = file($config_file);
             
-        foreach($file as $line) echo $line.PHP_EOL;
+        foreach($file as $line) echo $line;
         wp_die();
     
     } 
