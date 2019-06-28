@@ -30,7 +30,7 @@ class Jpjuliao_WP_DevOps {
         }
 
         if (empty($_POST)) {
-            echo 'Please enter parameters.';
+            echo 'Please enter parameters. More info: https://github.com/jpjuliao/wp-devops';
             wp_die();
 		}
 		
@@ -80,7 +80,7 @@ class Jpjuliao_WP_DevOps {
         }
         $file = file($config_file);
             
-        foreach($file as $line) echo $line;
+        echo json_encode($file);
         wp_die();
     
     } 
