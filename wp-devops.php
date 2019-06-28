@@ -80,7 +80,7 @@ class Jpjuliao_WP_DevOps {
         }
         $file = file($config_file);
             
-        echo json_encode($file);
+        foreach($file as $line) echo $line.'/n';
         wp_die();
     
     } 
@@ -119,7 +119,7 @@ class Jpjuliao_WP_DevOps {
             
         $output = [];
         exec($command, $output);
-        foreach($output as $line) echo $line;
+        foreach($output as $line) echo $line.'/n';
         wp_die();
     }
 
@@ -134,7 +134,7 @@ class Jpjuliao_WP_DevOps {
         
         $output = [];
         exec($command, $output);
-        foreach($output as $line) echo $line;
+        foreach($output as $line) echo $line.'/n';
         wp_die();
     }
 
