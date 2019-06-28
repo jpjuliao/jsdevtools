@@ -58,7 +58,11 @@ class Jpjuliao_WP_DevOps {
         <script type="text/javascript">
             function devops($params) {
                 'use strict';
-                if (typeof $params === 'object' && $params !== null) {
+                if (
+                    typeof $params === 'object' 
+                    && typeof $params !== 'undefined'
+                    && $params !== null
+                ) {
                     $params.action = 'devops';
                 }
                 else {
