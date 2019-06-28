@@ -61,8 +61,11 @@ class Jpjuliao_WP_DevOps {
                 if (typeof $params === 'undefined') {
                     $params = {action:'help'};
                 }
-                if (typeof $params === 'object' && $params !== null) {
+                else if (typeof $params === 'object' && $params !== null) {
                     $params.action = 'devops';
+                }
+                else {
+                    return;
                 }
                 jQuery.post(
                     '<?php echo admin_url( "admin-ajax.php" ); ?>', 
