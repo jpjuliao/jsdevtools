@@ -73,11 +73,14 @@ class Jpjuliao_WP_DevOps {
         }
 
         $dir = $this->root.$_POST['repo'];
-        $command = exec('cd '.$dir.'; git config --list');
+        $config_file = $dir.'/.git/config';
+        if (!file_exists($config_file)) {
+            echo 'Git config file not found.';
+            wp_die();
+        }
+        $file = file($config_file);
             
-        $output = [];
-        exec($command, $output);
-        foreach($output as $line) echo $line;
+        foreach($file as $line) echo $line;
         wp_die();
     
     } 
