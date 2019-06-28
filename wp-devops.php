@@ -56,13 +56,13 @@ class Jpjuliao_WP_DevOps {
 
     public function js() { ?>
         <script type="text/javascript">
-            function devops(params = {action:'help'}) {
+            function devops(params = null) {
                 'use strict';
-                if (typeof params === 'object' && params !== null) {
+                if (typeof params === 'object') {
                     params.action = 'devops';
                 }
                 else {
-                    return 'Invalid parameters';
+                    params = {action:'help'};
                 }
                 jQuery.post(
                     '<?php echo admin_url( "admin-ajax.php" ); ?>', 
