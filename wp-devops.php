@@ -56,22 +56,24 @@ class Jpjuliao_WP_DevOps {
 
     public function js() { ?>
         <script type="text/javascript">
-            function devops(params = null) {
+            (function(){
                 'use strict';
-                if (typeof params === 'object') {
-                    params.action = 'devops';
-                }
-                else {
-                    params = {action:'help'};
-                }
-                jQuery.post(
-                    '<?php echo admin_url( "admin-ajax.php" ); ?>', 
-                    params, 
-                    function(response) {
-                        console.log('# WP-DevOps Response', '\n\n', response);
+                window.devops = (params = null) => {
+                    if (typeof params === 'object') {
+                        params.action = 'devops';
                     }
-                );
-            }
+                    else {
+                        params = {action:'help'};
+                    }
+                    jQuery.post(
+                        '<?php echo admin_url( "admin-ajax.php" ); ?>', 
+                        params, 
+                        function(response) {
+                            console.log('# WP-DevOps Response', '\n\n', response);
+                        }
+                    );
+                }
+            })();
         </script><?php
     }
 
