@@ -56,20 +56,17 @@ class Jpjuliao_WP_DevOps {
 
     public function js() { ?>
         <script type="text/javascript">
-            function devops(args) {
+            function devops(params = {action:'help'}) {
                 'use strict';
-                if (args == null) {
-                    let args = {action:'help'};
-                }
-                else if (typeof args === 'object' && args !== null) {
-                    args.action = 'devops';
+                if (typeof params === 'object' && params !== null) {
+                    params.action = 'devops';
                 }
                 else {
-                    return;
+                    return 'Invalid parameters';
                 }
                 jQuery.post(
                     '<?php echo admin_url( "admin-ajax.php" ); ?>', 
-                    args, 
+                    params, 
                     function(response) {
                         console.log('# WP-DevOps Response', '\n\n', response);
                     }
