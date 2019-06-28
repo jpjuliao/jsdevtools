@@ -33,16 +33,13 @@ class Jpjuliao_WP_DevOps {
             echo 'Please enter parameters. More info: https://github.com/jpjuliao/wp-devops';
             wp_die();
 		}
-		
-        if (empty($_POST['action'])) {
-            echo 'Please enter an action.';
-            wp_die();
-		}
-
-        if ($_POST['action'] == 'help') {
-            echo 'More info: https://github.com/jpjuliao/wp-devops';
-            wp_die();
-		}
+        
+        if (!empty($_POST['help'])) {
+            if ($_POST['help']) {
+                echo 'More info: https://github.com/jpjuliao/wp-devops';
+                wp_die();
+            }
+        }
         
         if (!empty($_POST['git'])) {
             switch ($_POST['git']) {
@@ -62,7 +59,7 @@ class Jpjuliao_WP_DevOps {
                 'use strict';
                 window.devops = (params = false) => {
                     if (!params) {
-                        params = {action:'help'};
+                        params = {action:'devops', help:true};
                     }
                     else {
                         params.action = 'devops';
