@@ -57,7 +57,7 @@ class Jpjuliao_WP_DevOps {
                     '<?php echo admin_url( "admin-ajax.php" ); ?>', 
                     $params, 
                     function(response) {
-                        console.log('WP-Devops: ', response);
+                        console.log('WP-DevOps:', '\n\n', response);
                     }
                 );
             }
@@ -95,10 +95,10 @@ class Jpjuliao_WP_DevOps {
         
         $command = 'cd '.$dir.'; git pull '.$url.
             (isset($_POST['branch']) ? ' '.$_POST['branch'] : '');
+            
         $output = [];
-        
         exec($command, $output);
-        echo implode('\n', $output);
+        foreach($output as $line) echo $line;
         wp_die();
     }
 
@@ -108,10 +108,12 @@ class Jpjuliao_WP_DevOps {
             wp_die();
         }
         
+        $command = 'cd '.$this->root.$_POST['repo'].
+            '; git status';
+        
         $output = [];
-        $dir = 'cd '.$this->root.$_POST['repo'];
-        exec($dir.'; git status', $output);
-        echo implode('\n', $output);
+        exec($command, $output);
+        foreach($output as $line) echo $line;
         wp_die();
     }
 
