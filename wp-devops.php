@@ -38,6 +38,11 @@ class Jpjuliao_WP_DevOps {
             echo 'Please enter an action.';
             wp_die();
 		}
+
+        if ($_POST['action'] == 'help') {
+            echo 'More info: https://github.com/jpjuliao/wp-devops';
+            wp_die();
+		}
         
         switch ($_POST['git']) {
             case 'config'   : $this->git_config(); break;
@@ -53,10 +58,12 @@ class Jpjuliao_WP_DevOps {
         <script type="text/javascript">
             function devops($params) {
                 'use strict';
-                if (typeof $params === 'undefined') {
-                    $params = {};
+                if (typeof $params === 'object' && $params !== null) {
+                    $params.action = 'devops';
                 }
-                $params.action = 'devops';
+                else {
+                    $params = {'action':'help'};
+                }
                 jQuery.post(
                     '<?php echo admin_url( "admin-ajax.php" ); ?>', 
                     $params, 
