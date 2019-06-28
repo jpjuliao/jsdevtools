@@ -40,6 +40,7 @@ class Jpjuliao_WP_DevOps {
 		}
         
         switch ($_POST['git']) {
+            case 'config'   : $this->git_config(); break;
             case 'pull'     : $this->git_pull(); break;
             case 'status'   : $this->git_status(); break;
             default         : echo 'Please enter a valid git command.';
@@ -63,6 +64,23 @@ class Jpjuliao_WP_DevOps {
             }
         </script><?php
     }
+
+    private function git_config() {
+
+        if (empty($_POST['repo'])) {
+            echo 'Please enter repo parameter.';
+            wp_die();
+        }
+
+        $dir = $this->root.$_POST['repo'];
+        $command = exec('cd '.$dir.'; git config --list');
+            
+        $output = [];
+        exec($command, $output);
+        foreach($output as $line) echo $line;
+        wp_die();
+    
+    } 
         
     private function git_pull() {
 
