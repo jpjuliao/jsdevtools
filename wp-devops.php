@@ -56,20 +56,20 @@ class Jpjuliao_WP_DevOps {
 
     public function js() { ?>
         <script type="text/javascript">
-            function devops($params) {
+            function devops(args) {
                 'use strict';
-                if (typeof $params === 'undefined') {
-                    const $params = {action:'help'};
+                if (args == null) {
+                    let args = {action:'help'};
                 }
-                else if (typeof $params === 'object' && $params !== null) {
-                    $params.action = 'devops';
+                else if (typeof args === 'object' && args !== null) {
+                    args.action = 'devops';
                 }
                 else {
                     return;
                 }
                 jQuery.post(
                     '<?php echo admin_url( "admin-ajax.php" ); ?>', 
-                    $params, 
+                    args, 
                     function(response) {
                         console.log('# WP-DevOps Response', '\n\n', response);
                     }
