@@ -32,13 +32,11 @@ class Jpjuliao_WP_DevOps {
         if (empty($_POST)) {
             echo 'Please enter parameters. More info: https://github.com/jpjuliao/wp-devops';
             wp_die();
-		}
+        }
         
-        if (!empty($_POST['help'])) {
-            if ($_POST['help']) {
-                echo 'More info: https://github.com/jpjuliao/wp-devops';
-                wp_die();
-            }
+        if (isset($_POST['update'])) {
+            $this->update();
+            wp_die();
         }
         
         if (!empty($_POST['git'])) {
@@ -50,6 +48,9 @@ class Jpjuliao_WP_DevOps {
             }
             wp_die();
         }
+        
+        echo 'More info: https://github.com/jpjuliao/wp-devops';
+        wp_die();
 		
     }
 
@@ -57,13 +58,11 @@ class Jpjuliao_WP_DevOps {
         <script type="text/javascript">
             (function(){
                 'use strict';
-                window.devops = (params = false) => {
-                    if (!params) {
-                        params = {action:'devops', help:true};
+                window.devops = (params = {}) => {
+                    if (params == 'update') {
+                        params = {update:true};
                     }
-                    else {
-                        params.action = 'devops';
-                    }
+                    params.action = 'devops';
                     jQuery.post(
                         '<?php echo admin_url( "admin-ajax.php" ); ?>', 
                         params, 
@@ -74,6 +73,13 @@ class Jpjuliao_WP_DevOps {
                 }
             })();
         </script><?php
+    }
+
+    private function update() {
+        $output = [];
+        exec('cd '.$this->root.'plugins/wp-devops; git pull', $output);
+        foreach($output as $line) echo $line.PHP_EOL;
+        wp_die();
     }
 
     private function git_config() {
