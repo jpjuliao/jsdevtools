@@ -60,8 +60,11 @@ class Jpjuliao_WP_DevOps {
         <script type="text/javascript">
             (function(){
                 'use strict';
-                window.devops = (params = {action:'help'}) => {
-                    if (typeof params === 'object') {
+                window.devops = (params = false) => {
+                    if (!params) {
+                        params = {action:'help'};
+                    }
+                    else {
                         params.action = 'devops';
                     }
                     jQuery.post(
