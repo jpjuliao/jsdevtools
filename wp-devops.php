@@ -54,6 +54,7 @@ class Jpjuliao_WP_DevOps {
                 case 'get_results': $this->db_get_results(); break;
                 default: echo 'Please enter a valid $wpdb command.';
             }
+            wp_die();
         }
 
         echo 'More info: https://github.com/jpjuliao/wp-devops';
