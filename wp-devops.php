@@ -75,7 +75,8 @@ class Jpjuliao_WP_DevOps {
                         '<?php echo admin_url( "admin-ajax.php" ); ?>', 
                         params, 
                         function(response) {
-                            console.log('# WP-DevOps Response', '\n\n', response);
+                            console.log('# WP-DevOps Response');
+                            console.log(response);
                         }
                     );
                 }
