@@ -76,7 +76,7 @@ class Jpjuliao_WP_DevOps {
                         params, 
                         function(response) {
                             console.log('# WP-DevOps Response');
-                            console.log(response);
+                            console.log(JSON.parse(response));
                         }
                     );
                 }
