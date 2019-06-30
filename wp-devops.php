@@ -49,6 +49,13 @@ class Jpjuliao_WP_DevOps {
             wp_die();
         }
         
+        if (!empty($_POST['db'])) {
+            switch ($_POST['db']) {
+                case 'get_results': $this->db_get_results(); break;
+                default: echo 'Please enter a valid $wpdb command.';
+            }
+        }
+
         echo 'More info: https://github.com/jpjuliao/wp-devops';
         wp_die();
 		
@@ -157,6 +164,17 @@ class Jpjuliao_WP_DevOps {
 
     private function git_clone() {
         // Todo
+    }
+
+    private function db_get_results() {
+        if (empty($results)) {
+            echo "Please enter query parameter";
+            wp_die();
+        }
+        global $wpbd;
+        $results = $wpdb->get_results($_POST['query']);
+        echo json_encode($results);
+        wpdb();
     }
 
 }
