@@ -175,7 +175,7 @@ class Jpjuliao_WP_DevOps {
         global $wpdb;
         $results = $wpdb->get_results($_POST['query']);
         echo json_encode($results);
-        wpdb();
+        wp_die();
     }
 
 }
