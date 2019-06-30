@@ -76,11 +76,13 @@ class Jpjuliao_WP_DevOps {
                         params, 
                         function(response) {
                             console.log('# WP-DevOps Response');
-                            response = tryParseJSON(response);
-                            if (response) {
-                                console.log(JSON.parse(response));
+                            responseJSON = tryParseJSON(response);
+                            if (responseJSON) {
+                                console.log(JSON.parse(responseJSON));
                             }
-                            console.log(response);
+                            else {
+                                console.log(response);
+                            }
                         }
                     );
                     function tryParseJSON(jsonString) {
