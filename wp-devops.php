@@ -78,7 +78,7 @@ class Jpjuliao_WP_DevOps {
                             console.log('# WP-DevOps Response');
                             let responseJSON = tryParseJSON(response);
                             if (responseJSON) {
-                                console.log(JSON.parse(responseJSON));
+                                console.log(responseJSON);
                             }
                             else {
                                 console.log(response);
