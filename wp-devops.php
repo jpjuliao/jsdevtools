@@ -172,7 +172,7 @@ class Jpjuliao_WP_DevOps {
             echo "Please enter query parameter";
             wp_die();
         }
-        global $wpbd;
+        global $wpdb;
         $results = $wpdb->get_results($_POST['query']);
         echo json_encode($results);
         wpdb();
