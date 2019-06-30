@@ -167,7 +167,7 @@ class Jpjuliao_WP_DevOps {
     }
 
     private function db_get_results() {
-        if (empty($results)) {
+        if (empty($_POST['query'])) {
             echo "Please enter query parameter";
             wp_die();
         }
