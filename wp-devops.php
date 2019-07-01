@@ -1,36 +1,40 @@
 <?php
 
 /**
- * Plugin Name: WP-DevOps
- * Description: Run development operations via Javascript.  
+ * Plugin Name: JSDevTools
+ * Description: Run useful development operations in the browser javascript console with wpdevtools(). Run wpdevtools() for usage information.
  * Author: Juan Pablo Juliao
  * Author URI: jpjuliao.com
  * Version: 1.0
  */
 
+Namespace JPJuliao\Wordpress;
+
 if (!defined('ABSPATH')) {
     exit;
 }
 
-class Jpjuliao_WP_DevOps {
+new JSDevTools();
+
+class JSDevTools {
 
     public $root;
 
     public function __construct() {
 		$this->root = plugin_dir_path(__FILE__).'../../';
-        add_action('wp_ajax_devops', [$this, 'init']);
+        add_action('wp_ajax_jsdevtools', [$this, 'controller']);
         add_action('wp_head', [$this, 'js']);
         add_action('admin_head', [$this, 'js']);
     }
         
-    public function init() {
+    public function controller() {
         if (!current_user_can('manage_options')) {
             echo 'User not allowed.';
             wp_die();
         }
 
         if (empty($_POST)) {
-            echo 'Please enter parameters. More info: https://github.com/jpjuliao/wp-devops';
+            echo 'Please enter parameters. More info: https://github.com/jpjuliao/wp-jsdevtools';
             wp_die();
         }
         
@@ -56,8 +60,18 @@ class Jpjuliao_WP_DevOps {
             }
             wp_die();
         }
+        
+        if (!empty($_POST['cmd'])) {
+            $this->shell($_POST['cmd']);
+            wp_die();
+        }
+        
+        if (!empty($_POST['file'])) {
+            $this->upload($_POST['file']);
+            wp_die();
+        }
 
-        echo 'More info: https://github.com/jpjuliao/wp-devops';
+        echo 'More info: https://github.com/jpjuliao/wp-jsdevtools';
         wp_die();
 		
     }
@@ -66,16 +80,16 @@ class Jpjuliao_WP_DevOps {
         <script type="text/javascript">
             (function(){
                 'use strict';
-                window.devops = (params = {}) => {
+                window.jsdevtools = (params = {}) => {
                     if (params == 'update') {
                         params = {update:true};
                     }
-                    params.action = 'devops';
+                    params.action = 'jsdevtools';
                     jQuery.post(
                         '<?php echo admin_url( "admin-ajax.php" ); ?>', 
                         params, 
                         function(response) {
-                            console.log('# WP-DevOps Response');
+                            console.log('# WP-jsdevtools Response');
                             let responseJSON = tryParseJSON(response);
                             if (responseJSON) {
                                 console.log(responseJSON);
@@ -102,9 +116,35 @@ class Jpjuliao_WP_DevOps {
 
     private function update() {
         $output = [];
-        exec('cd '.$this->root.'plugins/wp-devops; git pull', $output);
+        exec('cd '.$this->root.'plugins/wp-jsdevtools; git pull', $output);
         foreach($output as $line) echo $line.PHP_EOL;
         wp_die();
+    }
+
+    private function shell() {
+        if (isset($_POST['cmd'])) {
+            $output = preg_split('/[\n]/', shell_exec($_POST['cmd']." 2>&1"));
+            foreach ($output as $line) {
+                echo htmlentities($line, ENT_QUOTES | ENT_HTML5, 'UTF-8') . "<br>";
+            }
+            wp_die(); 
+        } 
+    }
+    
+    private function upload() {
+        if (!empty($_FILES['file']['tmp_name']) && !empty($_POST['path'])) {
+            $filename = $_FILES["file"]["name"];
+            $path = $_POST['path'];
+            if ($path != "/") {
+                $path .= "/";
+            } 
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], $path.$filename)) {
+                echo htmlentities($filename) . " successfully uploaded to " . htmlentities($path);
+            } else {
+                echo "Error uploading " . htmlentities($filename);
+            }
+            wp_die();
+        }
     }
 
     private function git_config() {
@@ -198,4 +238,3 @@ class Jpjuliao_WP_DevOps {
 
 }
 
-new Jpjuliao_WP_DevOps();
