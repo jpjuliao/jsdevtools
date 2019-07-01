@@ -85,10 +85,13 @@ class JSDevTools {
                         params = {update:true};
                     }
                     params.action = 'jsdevtools';
-                    jQuery.post(
-                        '<?php echo admin_url( "admin-ajax.php" ); ?>', 
-                        params, 
-                        function(response) {
+                    jQuery.ajax(
+                        url:'<?php echo admin_url( "admin-ajax.php" ); ?>', 
+                        type: "POST",
+                        data: params, 
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(response) {
                             console.log('# WP-jsdevtools Response');
                             let responseJSON = tryParseJSON(response);
                             if (responseJSON) {
