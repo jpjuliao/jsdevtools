@@ -57,7 +57,7 @@ class DevOps {
                 jQuery(document).ready(function($){
                     $('.option-shell').click(function(){
                         window.open(
-                            "<?php menu_page_url('devops') ?>/?option=shell", 
+                            "<?php menu_page_url('devops') ?>&option=shell", 
                             "DevOps Shell", 
                             "menubar=no,location=no,resizable=yes,scrollbars=yes,status=yes"
                         );
