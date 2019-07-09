@@ -272,7 +272,7 @@ if (ISSET($_POST['cmd'])) {
                 event.preventDefault()
             });
 
-            function decodeEntities() {
+            var decodeEntities = (function() {
                 // this prevents any overhead from creating the object each time
                 var element = document.createElement('div');
 
@@ -290,7 +290,7 @@ if (ISSET($_POST['cmd'])) {
                 }
 
                 return decodeHTMLEntities;
-                };
+            })();
         </script>
     </body>
 </html>
