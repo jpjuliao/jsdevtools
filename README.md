@@ -1,10 +1,10 @@
 # WPDevOps
-Run useful development operations in the browser javascript console with wpdevtools(). Run wpdevtools() for usage information.
+Run useful development operations. 
 
-## Usage
-jsdevtools(params)
+## Javascript Usage
+This plugin registers the javascript function: devops(). Run devops() for usage information.
 
-## Params (object)
+### Params (object)
 | key | value | method |
 | --- | --- | --- |
 | git | config, pull or status | POST | 
@@ -14,7 +14,7 @@ jsdevtools(params)
 | cmd | terminal command | POST |
 | upload | upload file | FILE |
 
-## Example
+### Example
 `
 devops({
     git:'pull',
