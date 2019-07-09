@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Plugin Name: JSDevTools
- * Description: Run useful development operations in the browser javascript console with wpdevtools(). Run wpdevtools() for usage information.
+ * Plugin Name: WPDevOps
+ * Description: Run useful development operations.
  * Author: Juan Pablo Juliao
  * Author URI: jpjuliao.com
  * Version: 1.0
@@ -14,17 +14,58 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-new JSDevTools();
+new DevOps();
 
-class JSDevTools {
+class DevOps {
 
     public $root;
 
     public function __construct() {
 		$this->root = plugin_dir_path(__FILE__).'../../';
-        add_action('wp_ajax_jsdevtools', [$this, 'controller']);
+        add_action('wp_ajax_devops', [$this, 'controller']);
         add_action('wp_head', [$this, 'js']);
         add_action('admin_head', [$this, 'js']);
+        add_action('admin_menu', [$this, 'register_sub_menu']);
+    }
+    
+    public function register_sub_menu() {
+        add_submenu_page( 
+            'tools.php', 
+            'DevOps', 
+            'DevOps', 
+            'manage_options', 
+            'devops', 
+            [$this, 'submenu_page_callback']
+        );
+    }
+
+    public function submenu_page_callback() { 
+        if (isset($_GET['option'])) {
+            if ($_GET['option'] == 'shell') {
+                include 'shell/shell.php';
+                die;
+            }
+        }
+        ?>
+        <div class="wrap">
+            <h2>DevOps</h2>
+            <button class="option-shell">Shell</button>
+        </div>
+        <script>
+            (function(){
+                'use strict';
+                jQuery(document).ready(function($){
+                    $('.option-shell').click(function(){
+                        window.open(
+                            "<?php menu_page_url('devops') ?>/?option=shell", 
+                            "DevOps Shell", 
+                            "menubar=no,location=no,resizable=yes,scrollbars=yes,status=yes"
+                        );
+                    });
+                });
+            })()
+        </script>
+        <?php 
     }
         
     public function controller() {
@@ -34,7 +75,7 @@ class JSDevTools {
         }
 
         if (empty($_POST)) {
-            echo 'Please enter parameters. More info: https://github.com/jpjuliao/wp-jsdevtools';
+            echo 'Please enter parameters. More info: https://github.com/jpjuliao/wpdevops';
             wp_die();
         }
         
@@ -71,7 +112,7 @@ class JSDevTools {
             wp_die();
         }
 
-        echo 'More info: https://github.com/jpjuliao/wp-jsdevtools';
+        echo 'More info: https://github.com/jpjuliao/wpdevops';
         wp_die();
 		
     }
@@ -80,11 +121,11 @@ class JSDevTools {
         <script type="text/javascript">
             (function(){
                 'use strict';
-                window.jsdevtools = (params = {}) => {
+                window.devops = (params = {}) => {
                     if (params == 'update') {
                         params = {update:true};
                     }
-                    params.action = 'jsdevtools';
+                    params.action = 'devops';
                     jQuery.ajax(
                         url:'<?php echo admin_url( "admin-ajax.php" ); ?>', 
                         type: "POST",
@@ -92,7 +133,7 @@ class JSDevTools {
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function(response) {
-                            console.log('# WP-jsdevtools Response');
+                            console.log('# DevOps Response: ');
                             let responseJSON = tryParseJSON(response);
                             if (responseJSON) {
                                 console.log(responseJSON);
@@ -119,7 +160,7 @@ class JSDevTools {
 
     private function update() {
         $output = [];
-        exec('cd '.$this->root.'plugins/wp-jsdevtools; git pull', $output);
+        exec('cd '.$this->root.'plugins/wpdevops; git pull', $output);
         foreach($output as $line) echo $line.PHP_EOL;
         wp_die();
     }
