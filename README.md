@@ -1,4 +1,4 @@
-# WPjsdevtools
+# WPDevOps
 Run useful development operations in the browser javascript console with wpdevtools(). Run wpdevtools() for usage information.
 
 ## Usage
