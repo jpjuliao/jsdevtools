@@ -207,6 +207,7 @@ if (ISSET($_POST['cmd'])) {
                         updateInputWidth();
                     }
                 };
+                console.log(command);
                 request.open("POST", requestURL, true);
                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 request.send("cmd="+encodeURIComponent(command));
