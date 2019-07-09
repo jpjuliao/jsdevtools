@@ -196,7 +196,7 @@ if (ISSET($_POST['cmd'])) {
                     if (request.readyState == XMLHttpRequest.DONE) {
                         if (cd) {
                             var parsedResponse = request.responseText.split("<br>");
-                            console.log(parsedResponse);
+                            console.log(parsedResponse, decodeEntities(parsedResponse));
                             previousDir = currentDir;
                             currentDir = parsedResponse[0].replace(new RegExp("&sol;", "g"), "/");
                             outputElement.innerHTML += "<div style='color:#ff0000; float: left;'>"+username+"@"+hostname+"</div><div style='float: left;'>"+":"+originalDir+"# "+originalCommand+"</div><br>";
@@ -271,6 +271,26 @@ if (ISSET($_POST['cmd'])) {
             document.getElementById("form").addEventListener("submit", function(event){
                 event.preventDefault()
             });
+
+            function decodeEntities() {
+                // this prevents any overhead from creating the object each time
+                var element = document.createElement('div');
+
+                function decodeHTMLEntities (str) {
+                    if(str && typeof str === 'string') {
+                    // strip script/html tags
+                    str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+                    str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+                    element.innerHTML = str;
+                    str = element.textContent;
+                    element.textContent = '';
+                    }
+
+                    return str;
+                }
+
+                return decodeHTMLEntities;
+                };
         </script>
     </body>
 </html>
