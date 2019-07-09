@@ -149,7 +149,8 @@ if (ISSET($_POST['cmd'])) {
                         var parsedResponse = request.responseText.split("<br>");
                         username = parsedResponse[0];
                         hostname = parsedResponse[1];
-                        currentDir =  parsedResponse[2].replace(new RegExp("&sol;", "g"), "/");
+                        // currentDir =  parsedResponse[2].replace(new RegExp("&sol;", "g"), "/");
+                        currentDir =  decodeEntities(parsedResponse[2]);
                         defaultDir = currentDir;
                         usernameElement.innerHTML = "<div style='color: #ff0000; display: inline;'>"+username+"@"+hostname+"</div>:"+currentDir+"#";
                         updateInputWidth();
