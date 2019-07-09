@@ -138,7 +138,7 @@ if (ISSET($_POST['cmd'])) {
             var usernameElement = document.getElementById("username");
             var uploadFormElement = document.getElementById("upload");
             var fileBrowserElement = document.getElementById("filebrowser");
-            var requestURL = menu_page_url('devops')+"/?option=shell";
+            var requestURL = <?php menu_page_url('devops') ?>"/?option=shell";
             getShellInfo();
             
             function getShellInfo() {
