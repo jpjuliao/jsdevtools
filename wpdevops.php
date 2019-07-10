@@ -131,8 +131,8 @@ class DevOps {
                     }
                     params.action = 'devops';
                     jQuery.ajax({
-                        url: "<?php echo admin_url( "admin-ajax.php" ); ?>",
-                        type: "POST",
+                        url: '<?php echo admin_url( "admin-ajax.php" ); ?>',
+                        method: "POST",
                         data: params, 
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
