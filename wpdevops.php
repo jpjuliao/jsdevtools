@@ -23,8 +23,8 @@ class DevOps {
     public function __construct() {
 		$this->root = plugin_dir_path(__FILE__).'../../';
         add_action('wp_ajax_devops', [$this, 'controller']);
-        add_action('wp_head', [$this, 'js']);
-        add_action('admin_head', [$this, 'js']);
+        add_action('wp_footer', [$this, 'js']);
+        add_action('admin_footer', [$this, 'js']);
         add_action('admin_menu', [$this, 'register_sub_menu']);
         add_action('current_screen', [$this, 'shell_page']);
     }
@@ -133,7 +133,7 @@ class DevOps {
                     jQuery.ajax({
                         url: '<?php echo admin_url( "admin-ajax.php" ); ?>',
                         method: "POST",
-                        data: params, 
+                        data: params,
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function(response) {
@@ -145,6 +145,9 @@ class DevOps {
                             else {
                                 console.log(response);
                             }
+                        },
+                        error: function(error) { 
+                            console.log(error) 
                         }
                     });
                     function tryParseJSON(jsonString) {
